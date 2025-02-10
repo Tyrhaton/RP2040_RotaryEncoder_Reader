@@ -2,7 +2,10 @@
 #define ROTARYENCODER_H
 
 #include "pico/stdlib.h"
+#include "hardware/sync.h"
+
 #include "uart.h"
+#include "led.h"
 
 typedef struct ROTARY_ENCODER_DATA
 {
