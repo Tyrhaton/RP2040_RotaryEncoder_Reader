@@ -14,21 +14,12 @@ int main()
 
     rotary_encoder_t encoder = create_rotary(10, 11, 0, 5, 1, 0, 1);
 
-    int16_t last_value_rot = 0;
-
-    while (1)
-    {
-        int16_t prev_value_rot = last_value_rot;
-        last_value_rot = get_rotary_value(encoder.gpio_channel_a);
-
-        if (prev_value_rot == last_value_rot)
-        {
-            continue;
-        }
-
-        print(uart1, "[+] Current Rotary Value on GPIO %d/%d: %d\r\n", encoder.gpio_channel_a, encoder.gpio_channel_b, last_value_rot);
-        sleep_ms(500);
-    }
+    extern volatile int Last_Rotary_Value;
+	while (1)
+	{
+        print(uart1, "%d\n\r", Last_Rotary_Value);
+		sleep_ms(50);
+	}
 
     return 0;
 }

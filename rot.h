@@ -5,16 +5,17 @@
 #include "hardware/sync.h"
 
 #include "uart.h"
-#include "led.h"
 
+// volatile int Last_Rotary_Value;
 typedef struct ROTARY_ENCODER_DATA
 {
-    uint8_t gpio_channel_a, gpio_channel_b;
-    int16_t min_value,current_value, max_value;
-    int8_t factor, dir;
-    uint8_t last_state_a, last_state_b;
-    uint32_t last_isr_time, debounce_edge;
-    int8_t type;
+    volatile uint8_t gpio_channel_a, gpio_channel_b;
+    volatile int16_t min_value,current_value, max_value;
+    volatile int8_t factor, dir;
+    volatile uint8_t last_state_a, last_state_b;
+    volatile uint32_t last_isr_time, debounce_edge;
+    volatile int8_t type;
+    volatile int8_t ccw_cw;
 } rotary_encoder_t;
 
 typedef struct
