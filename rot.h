@@ -6,6 +6,8 @@
 
 #include "uart.h"
 
+extern volatile int Last_Rotary_Value;
+
 // volatile int Last_Rotary_Value;
 typedef struct ROTARY_ENCODER_DATA
 {

@@ -12,7 +12,7 @@ int main()
     stdio_init_all();
     init_uart(UART_ID, Baudrate, TX, RX);
 
-    rotary_encoder_t encoder = create_rotary(10, 11, 0, 5, 1, 0, 1);
+    rotary_encoder_t encoder = create_rotary(10, 11, 0, 4, 1, 0, 1);
 
     extern volatile int Last_Rotary_Value;
 	while (1)

@@ -41,7 +41,6 @@ void encoder_callback(uint gpio, uint32_t events)
     uint8_t enc_value = gpio_state & 0x03;                 // use only bits 0 and 1 for A and B
     rotary_encoder_t *data = find_encoder_by_gpio(gpio);
 
-    // Static flags for detecting rising edges
     static bool ccw_fall = false;
     static bool cw_fall = false;
 
@@ -56,17 +55,15 @@ void encoder_callback(uint gpio, uint32_t events)
         {
             cw_fall = false;
             ccw_fall = false;
-
-            if (ccw_cw == 1)
-            {
-                print(uart1, "switch %d\n\r", Last_Rotary_Value);
-            }
+            // if (ccw_cw == 1)
+            // {
+            //     print(uart1, "switch %d\n\r", Last_Rotary_Value);
+            // }
             Last_Rotary_Value -= 1 * data->factor;
-            if (Last_Rotary_Value < 0)
+            if (Last_Rotary_Value < data->min_value)
             {
-                Last_Rotary_Value = 5;
+                Last_Rotary_Value = data->max_value;
             }
-            print(uart1, "CCW %d:\n\r", Last_Rotary_Value);
             ccw_cw = 0;
         }
     }
@@ -81,22 +78,19 @@ void encoder_callback(uint gpio, uint32_t events)
         {
             cw_fall = false;
             ccw_fall = false;
-            if (ccw_cw == 0)
-            {
-                print(uart1, "switch %d\n\r", Last_Rotary_Value);
-            }
+            // if (ccw_cw == 0)
+            // {
+            //     print(uart1, "switch %d\n\r", Last_Rotary_Value);
+            // }
             Last_Rotary_Value += 1 * data->factor;
-            if (Last_Rotary_Value > 5)
+            if (Last_Rotary_Value > data->max_value)
             {
-                Last_Rotary_Value = 0;
+                Last_Rotary_Value = data->min_value;
             }
-            print(uart1, "CW  %d:\n\r", Last_Rotary_Value);
-            // print(uart1, "%d\n\r", data->dir);
-
-            // data->dir = 1;
             ccw_cw = 1;
         }
     }
+    data->current_value = Last_Rotary_Value;
     restore_interrupts_from_disabled(save);
 }
 
